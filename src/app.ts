@@ -9,6 +9,8 @@ import passport from 'passport';
 import bluebird from 'bluebird';
 import { MONGODB_URI, SESSION_SECRET } from './util/secrets';
 import { User } from './models/User';
+import * as EndPointController from './controllers/endPoint';
+import routerWrapper from './util/routerWrapper';
 
 const MongoStore = mongo(session);
 
@@ -47,11 +49,21 @@ app.use(async (req, res, next) => {
   // res.locals.user = req.user;
   // console.log('222222222');
   // next();
-  let user = new User();
-  user.email = 'oijweoifjwef';
-  await user.save();
+  // let user = new User();
+  // user.email = 'oijweoifjwef';
+  // await user.save();
   // User.save({ email: 'oijwefoijwef' });
+
   next();
 });
+
+//@ts-ignore
+app.get('/test', routerWrapper(async (req, res) => {
+  await Promise.reject('iiijj');
+  res.send('test .......');
+}));
+
+app.post('/endpoint/upsert', EndPointController.postUpsertEndPoint);
+
 
 export default app;
