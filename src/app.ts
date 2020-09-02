@@ -9,7 +9,7 @@ import passport from 'passport';
 import bluebird from 'bluebird';
 import { MONGODB_URI, SESSION_SECRET } from './util/secrets';
 import { User } from './models/User';
-import * as EndPointController from './controllers/endPoint';
+import * as EndPointController from './controllers/endPointController';
 import routerWrapper from './util/routerWrapper';
 
 const MongoStore = mongo(session);
