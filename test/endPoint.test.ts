@@ -13,7 +13,7 @@ describe('EndPoint Api', () => {
   it('should upsert end point', async () => {
     let r = await request(app).post('/endpoint/upsert')
       .send([{ url: 'u1', watchFields: { path: 'p1', value: 'v1' } }]);
-    expect(await EndPoint.count({})).toEqual(1);
-    expect(EndPoint.findOne()).toHaveProperty('url', 'u1');
+    expect(await EndPoint.countDocuments({})).toEqual(1);
+    expect(await EndPoint.findOne()).toHaveProperty('url', 'u1');
   });
 });
