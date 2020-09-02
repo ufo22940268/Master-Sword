@@ -44,18 +44,6 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(flash());
-app.use(async (req, res, next) => {
-  // res.locals.user = req.user;
-  // console.log('222222222');
-  // next();
-  // let user = new User();
-  // user.email = 'oijweoifjwef';
-  // await user.save();
-  // User.save({ email: 'oijwefoijwef' });
-
-  next();
-});
 
 //@ts-ignore
 app.get('/test', routerWrapper(async (req, res) => {
@@ -64,6 +52,7 @@ app.get('/test', routerWrapper(async (req, res) => {
 }));
 
 app.post('/endpoint/upsert', EndPointController.postUpsertEndPoint);
+app.post('/endpoint/delete', EndPointController.postDeleteEndPoint);
 
 
 export default app;

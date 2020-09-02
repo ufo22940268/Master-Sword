@@ -30,4 +30,10 @@ describe('EndPoint Api', () => {
     expect(ep.watchFields[0])
       .toEqual(expect.objectContaining({ path: 'p2', value: 'v1' }));
   });
+
+  it('should delete endpoint', async () => {
+    await request(app).post('/endpoint/delete')
+      .send({ url: 'u2' });
+    expect(await EndPoint.findOne({ url: 'u2' })).toBeFalsy();
+  });
 });
