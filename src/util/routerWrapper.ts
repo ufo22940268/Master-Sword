@@ -18,12 +18,14 @@ function routerWrapper(validatorsOrFunc: [ValidationChain] | ApiFunc, optionalFu
   }
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      if (validators) {
+      if (validators.length) {
         await Promise.all(validators.map(async val => {
           await val.run(req);
         }));
         let errors = validationResult(req);
-        throw errors;
+        if (!errors.isEmpty()) {
+          throw errors;
+        }
       }
 
       let r = await func(req, res);
