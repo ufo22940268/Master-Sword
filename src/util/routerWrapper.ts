@@ -34,7 +34,8 @@ function routerWrapper(validatorsOrFunc: [ValidationChain] | ApiFunc, optionalFu
       if (!Array.isArray(e)) {
         e = [e];
       }
-      res.send({ ok: false, errors: e });
+      e.forEach((t:any) => console.error(t));
+      res.status(500).send({ ok: false, errors: e });
     }
   };
 }
