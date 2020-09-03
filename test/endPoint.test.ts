@@ -3,11 +3,13 @@ import app from '../src/app';
 import mongoose from 'mongoose';
 import { EndPoint } from '../src/models/EndPoint';
 import { User, UserDocument } from '../src/models/User';
+import RequestAgent from './RequestAgent';
 
 
 describe('EndPoint Api', () => {
 
   let user: UserDocument;
+  let agent: RequestAgent;
 
   beforeAll(async () => {
     await mongoose.connection.dropDatabase();
@@ -18,10 +20,12 @@ describe('EndPoint Api', () => {
     user = new User();
     user.appleId = 'ijijwef';
     await user.save();
+
+    agent = new RequestAgent(user);
   });
 
   const post = (url: string) => {
-    return request(app).post(url).set('apple-user-id', user.appleId);
+    return agent.post(url).set('apple-user-id', user.appleId);
   };
 
   it('should return an error when user not login', async () => {
