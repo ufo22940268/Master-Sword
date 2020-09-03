@@ -10,6 +10,7 @@ import bluebird from 'bluebird';
 import { MONGODB_URI, SESSION_SECRET } from './util/secrets';
 import { User } from './models/User';
 import * as EndPointController from './controllers/endPointController';
+import * as UserController from './controllers/userController';
 import routerWrapper from './util/routerWrapper';
 
 const MongoStore = mongo(session);
@@ -50,6 +51,8 @@ app.get('/test', routerWrapper(async (req, res) => {
   await Promise.reject('iiijj');
   res.send('test .......');
 }));
+
+app.post('/user/login', UserController.postLogin);
 
 app.use(async (req, res, next) => {
   const user = await User.findOne({ appleId: req.headers['apple-user-id'] });
