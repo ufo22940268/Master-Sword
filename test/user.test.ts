@@ -6,7 +6,7 @@ import { User, UserDocument } from '../src/models/User';
 import RequestAgent from './RequestAgent';
 
 
-describe('EndPoint Api', () => {
+describe('User Api', () => {
 
   let user: UserDocument;
   let agent: RequestAgent;
@@ -21,6 +21,12 @@ describe('EndPoint Api', () => {
     user.appleId = 'id1';
     await user.save();
     agent = new RequestAgent(user);
+  });
+
+  it('should return error when not passed required variable ', async () => {
+    let r = await request(app).post('/user/login')
+      .send({});
+    expect(r.body).toHaveProperty('ok', false);
   });
 
   it('login', async () => {
