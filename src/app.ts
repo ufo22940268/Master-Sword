@@ -51,6 +51,19 @@ app.get('/test', routerWrapper(async (req, res) => {
   res.send('test .......');
 }));
 
+app.use(async (req, res, next) => {
+  const user = await User.findOne({ appleId: req.headers['apple-user-id'] });
+  if (!user) {
+    return res.send({
+      ok: false,
+      error: 'User not found'
+    });
+  }
+
+  res.locals.user = user;
+  next();
+});
+
 app.post('/endpoint/upsert', EndPointController.postUpsertEndPoint);
 app.post('/endpoint/delete', EndPointController.postDeleteEndPoint);
 
