@@ -39,6 +39,7 @@ describe('Scan EndPoint', () => {
         expect(log.batch).not.toBeFalsy();
         // expect(log.duration).toBeGreaterThan(0);
         expect(log.fields[0].match).toBeTruthy();
+        expect(log.data).toBeTruthy();
     });
 
     describe('when server return unexpected values', () => {

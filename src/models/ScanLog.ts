@@ -6,7 +6,8 @@ export interface ScanLogDocument extends mongoose.Document {
     endPoint: EndPointDocument,
     batch: ScanBatchDocument,
     duration: number,
-    fields: ScanLogField[]
+    fields: ScanLogField[],
+    data: string
 }
 
 export interface ScanLogField {
@@ -22,13 +23,14 @@ const scanLogFieldSchema = new mongoose.Schema({
     path: String,
     match: Boolean,
     value: String,
-    expectValue: String
+    expectValue: String,
 })
 
 const scanLogSchema = new mongoose.Schema({
     endPoint: {type: Schema.Types.ObjectId, ref: 'EndPoint'},
     duration: Number,
     batch: {type: Schema.Types.ObjectId, ref: 'ScanBatch'},
+    data: String,
     fields: [scanLogFieldSchema]
 }, {timestamps: true});
 

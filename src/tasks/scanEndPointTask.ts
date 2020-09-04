@@ -12,20 +12,30 @@ export const scanEndPoint = async (endPoint: EndPointDocument, batch: ScanBatchD
     log.endPoint = endPoint
 
     let fields: ScanLogField[] = [];
+    let text = await response.text();
+    let json = null;
     try {
-        let json = await response.json();
-        let jsonValidator = new JSONValidator(json);
-        let field: ScanLogField
-        for (let watchField of endPoint.watchFields) {
-            let {match, value} = jsonValidator.validate(watchField.path, watchField.value);
-            field = {expectValue: watchField.value, match, path: watchField.path, value}
-            fields.push(field);
-        }
+        json = JSON.parse(text)
     } catch (e) {
         console.error(e)
     }
 
+    if (json) {
+        let jsonValidator = new JSONValidator(json);
+        for (let watchField of endPoint.watchFields) {
+            let field: ScanLogField
+            let {match, value} = jsonValidator.validate(watchField.path, watchField.value);
+            field = {expectValue: watchField.value, match, path: watchField.path, value}
+            fields.push(field);
+        }
+    } else {
+        fields = endPoint.watchFields.map((watchField): ScanLogField => {
+            return {expectValue: watchField.value, match: false, path: watchField.path, value: ""};
+        });
+    }
+
     log.fields = fields
+    log.data = text
     await log.save();
 }
 
