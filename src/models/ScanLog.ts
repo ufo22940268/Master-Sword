@@ -5,13 +5,31 @@ import {ScanBatchDocument} from "./scanBatch";
 export interface ScanLogDocument extends mongoose.Document {
     endPoint: EndPointDocument,
     batch: ScanBatchDocument,
-    duration: number
+    duration: number,
+    fields: ScanLogField[]
 }
+
+export interface ScanLogField {
+    // watchFieldId: Types.ObjectId,
+    path: string,
+    match: boolean,
+    value: string,
+    expectValue: string
+}
+
+const scanLogFieldSchema = new mongoose.Schema({
+    watchFieldId: Schema.Types.ObjectId,
+    path: String,
+    match: Boolean,
+    value: String,
+    expectValue: String
+})
 
 const scanLogSchema = new mongoose.Schema({
     endPoint: {type: Schema.Types.ObjectId, ref: 'EndPoint'},
     duration: Number,
-    batch: {type: Schema.Types.ObjectId, ref: 'ScanBatch'}
+    batch: {type: Schema.Types.ObjectId, ref: 'ScanBatch'},
+    fields: [scanLogFieldSchema]
 }, {timestamps: true});
 
 export const ScanLog = mongoose.model<ScanLogDocument>('ScanLog', scanLogSchema);

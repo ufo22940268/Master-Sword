@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import {UserDocument} from './User';
 
 export type EndPointDocument = mongoose.Document & {
     url: string

@@ -11,7 +11,7 @@ describe('EndPoint Api', () => {
   let user: UserDocument;
   let agent: RequestAgent;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     await mongoose.connection.dropDatabase();
     let endPoint = new EndPoint();
     endPoint.url = 'u2';

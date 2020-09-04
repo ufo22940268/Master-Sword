@@ -1,19 +1,31 @@
 import fetch from "node-fetch"
 import {EndPoint, EndPointDocument} from "../models/EndPoint";
-import {ScanLog} from "../models/ScanLog";
+import {ScanLogField, ScanLog} from "../models/ScanLog";
 import {ScanBatch, ScanBatchDocument} from "../models/scanBatch";
+import {JSONValidator} from "../util/JSONValidator";
 
 export const scanEndPoint = async (endPoint: EndPointDocument, batch: ScanBatchDocument) => {
     let response = await fetch(endPoint.url, {timeout: 5000});
-    try {
-        let json = await response.json();
-    } catch (e) {
-        // console.error(e)
-    }
+
     let log = new ScanLog()
-    // log.duration =
     log.batch = batch;
     log.endPoint = endPoint
+
+    let fields: ScanLogField[] = [];
+    try {
+        let json = await response.json();
+        let jsonValidator = new JSONValidator(json);
+        let field: ScanLogField
+        for (let watchField of endPoint.watchFields) {
+            let {match, value} = jsonValidator.validate(watchField.path, watchField.value);
+            field = {expectValue: watchField.value, match, path: watchField.path, value}
+            fields.push(field);
+        }
+    } catch (e) {
+        console.error(e)
+    }
+
+    log.fields = fields
     await log.save();
 }
 
