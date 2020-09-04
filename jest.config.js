@@ -15,6 +15,6 @@ module.exports = {
     "**/test/**/*.test.(ts|js)"
   ],
   bail: 1,
-  setupFiles: ["./test/setup.ts"],
+  setupFiles: ["./test/setupJest.ts"],
   testEnvironment: "node"
 };
