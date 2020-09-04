@@ -29,7 +29,10 @@ describe('Scan EndPoint', () => {
 
     it('should scan server', async () => {
         await scanEndPoints();
-        let s = await ScanLog.findOne({endPoint: endPoint});
-        expect(s).not.toBeFalsy();
+        let log = await ScanLog.findOne({endPoint: endPoint});
+        expect(log).not.toBeFalsy();
+        expect(log.endPoint._id.toString()).toEqual(endPoint.id)
+        expect(log.batch).not.toBeFalsy();
+        // expect(log.duration).toBeGreaterThan(0);
     });
 });
