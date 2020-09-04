@@ -37,7 +37,7 @@ describe('Scan EndPoint', () => {
         expect(log).not.toBeFalsy();
         expect(log.endPoint._id.toString()).toEqual(endPoint.id)
         expect(log.batch).not.toBeFalsy();
-        // expect(log.duration).toBeGreaterThan(0);
+        expect(log.duration).toBeGreaterThan(0);
         expect(log.fields[0].match).toBeTruthy();
         expect(log.data).toBeTruthy();
     });
