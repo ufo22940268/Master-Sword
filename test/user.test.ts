@@ -42,4 +42,10 @@ describe('User Api', () => {
             .send({appleUserId: 'id2', username: 'kk'});
         expect(r.body.result).toHaveProperty('appleId', 'id2');
     });
+
+    it('update notification token', async () => {
+        let r = await agent.post('/user/update/notificationtoken')
+            .send({notificationToken: 'nt'})
+        expect(await User.findOne({_id: user._id})).toHaveProperty('notificationToken', 'nt');
+    })
 });

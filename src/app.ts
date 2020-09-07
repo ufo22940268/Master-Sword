@@ -22,6 +22,8 @@ const app = express();
 const mongoUrl = MONGODB_URI;
 mongoose.Promise = bluebird;
 
+// mongoose.set('debug', true)
+
 mongoose.connect(mongoUrl, {
     useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false
 }).then(
@@ -69,6 +71,8 @@ app.use(async (req, res, next) => {
     res.locals.user = user;
     next();
 });
+
+app.post('/user/update/notificationtoken', UserController.updateNotificationToken);
 
 app.post('/endpoint/upsert', EndPointController.postUpsertEndPoint);
 app.post('/endpoint/delete', EndPointController.postDeleteEndPoint);
