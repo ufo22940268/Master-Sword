@@ -13,13 +13,14 @@ describe('EndPoint Api', () => {
 
   beforeEach(async () => {
     await mongoose.connection.dropDatabase();
-    let endPoint = new EndPoint();
-    endPoint.url = 'u2';
-    await endPoint.save();
-
     user = new User();
     user.appleId = 'ijijwef';
     await user.save();
+
+    let endPoint = new EndPoint();
+    endPoint.url = 'u2';
+    endPoint.user = user;
+    await endPoint.save();
 
     agent = new RequestAgent(user);
   });

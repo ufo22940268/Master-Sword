@@ -1,7 +1,9 @@
-import mongoose from 'mongoose';
+import mongoose, {Schema} from 'mongoose';
+import {UserDocument} from "./User";
 
 export type EndPointDocument = mongoose.Document & {
-    url: string
+    url: string,
+    user: UserDocument,
     watchFields: [
         {
             path: string,
@@ -11,7 +13,8 @@ export type EndPointDocument = mongoose.Document & {
 };
 
 const endPointSchema = new mongoose.Schema({
-    url: String,
+    url: {type: String, required: true},
+    user: {type: Schema.Types.ObjectId, ref: 'User', required: true},
     watchFields: [
         {
             path: String,
@@ -19,5 +22,7 @@ const endPointSchema = new mongoose.Schema({
         }
     ]
 }, {timestamps: true});
+
+endPointSchema.index({user: 1, url: 1}, {unique: true})
 
 export const EndPoint = mongoose.model<EndPointDocument>('EndPoint', endPointSchema);
