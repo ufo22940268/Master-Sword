@@ -3,9 +3,10 @@ import {EndPoint, EndPointDocument} from "../models/EndPoint";
 import {ScanLogField, ScanLog, ScanLogDocument} from "../models/ScanLog";
 import {ScanBatch, ScanBatchDocument} from "../models/scanBatch";
 import {JSONValidator} from "../util/JSONValidator";
-import "../app";
+import "../util/initMongo";
 import {APNMessage, pushAPNS} from "../util/notification";
 import {User} from "../models/User";
+import {error} from "shelljs";
 
 export const scanEndPoint = async (endPoint: EndPointDocument, batch: ScanBatchDocument): Promise<ScanLogDocument> => {
     let startTime = new Date();
@@ -64,8 +65,12 @@ export const scanEndPoints = async () => {
     let batch = new ScanBatch();
     await batch.save();
     for (let endPoint of await EndPoint.find()) {
-        let log = await scanEndPoint(endPoint, batch)
-        await sendNotification(log);
+        try {
+            let log = await scanEndPoint(endPoint, batch)
+            await sendNotification(log);
+        } catch (e) {
+            console.error(e)
+        }
     }
 };
 
