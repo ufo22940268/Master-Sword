@@ -2,13 +2,14 @@ import {UserDocument} from "../models/User";
 import apn from 'apn'
 import * as path from "path";
 
-interface APNMessage {
+export interface APNMessage {
     content: string
 }
 
 let service = new apn.Provider({
     cert: path.join(__dirname, '../../keys/cert.pem'),
     key: path.join(__dirname, '../../keys/apns-dev-cert.pem'),
+    production: process.env.NODE_ENV == 'production'
 });
 
 export const pushAPNS = async (user: UserDocument, message: APNMessage) => {

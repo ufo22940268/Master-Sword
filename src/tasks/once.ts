@@ -1,21 +1,19 @@
 import {pushAPNS} from "../util/notification";
 import {User} from "../models/User";
-import '../app'
+import '../util/initMongo'
+import {scanEndPoints} from "./scanEndPointTask";
+import {EndPoint} from "../models/EndPoint";
 
 (async () => {
-    console.log('1111')
     let user = await User.findOne({notificationToken: {$exists: true}})
-    await pushAPNS(user, {content: '123123'})
-    console.log(22222)
-})()
-//     .then(() => {
-//     console.log('success');
-//     process.exit(0);
-// }, (e) => {
-//     console.log('e: ' + JSON.stringify(e, null, 4) + '\n');
-// }).catch(e => {
-//     console.error(e);
-//     process.exit(-1)
-// }).finally(() => {
-//     console.log(222222)
-// })
+    // await pushAPNS(user, {content: '123123'})
+
+    await EndPoint.findOneAndUpdate({url: 'http://biubiubiu.hopto.org:9000/link/github.json'}, {
+        user: user,
+        watchFields: [{path: 'feeds_url', value: 'wrong_feeds_url_value'}]
+    }, {upsert: true})
+    await scanEndPoints();
+    console.log('success');
+})().finally(() => {
+    process.exit(0);
+})

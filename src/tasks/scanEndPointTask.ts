@@ -1,10 +1,13 @@
 import fetch from "node-fetch"
 import {EndPoint, EndPointDocument} from "../models/EndPoint";
-import {ScanLogField, ScanLog} from "../models/ScanLog";
+import {ScanLogField, ScanLog, ScanLogDocument} from "../models/ScanLog";
 import {ScanBatch, ScanBatchDocument} from "../models/scanBatch";
 import {JSONValidator} from "../util/JSONValidator";
+import "../app";
+import {APNMessage, pushAPNS} from "../util/notification";
+import {User} from "../models/User";
 
-export const scanEndPoint = async (endPoint: EndPointDocument, batch: ScanBatchDocument) => {
+export const scanEndPoint = async (endPoint: EndPointDocument, batch: ScanBatchDocument): Promise<ScanLogDocument> => {
     let startTime = new Date();
 
     let response = await fetch(endPoint.url, {timeout: 5000});
@@ -40,14 +43,31 @@ export const scanEndPoint = async (endPoint: EndPointDocument, batch: ScanBatchD
     log.duration = duration;
     log.fields = fields
     log.data = text
-    await log.save();
+    return await log.save();
+}
+
+async function sendNotification(log: ScanLogDocument) {
+    let notifFields = log.fields.filter(f => !f.match);
+    if (!notifFields.length) {
+        return;
+    }
+
+    let message: APNMessage = {
+        content: `watch value ${notifFields.map(f => f.value).join()} error`
+    }
+
+    await User.populate(log, {path: 'endPoint.user'});
+    console.log('log: ' + JSON.stringify(log, null, 4) + '\n');
+
+    await pushAPNS(log.endPoint.user, message);
 }
 
 export const scanEndPoints = async () => {
     let batch = new ScanBatch();
     await batch.save();
     for (let endPoint of await EndPoint.find()) {
-        await scanEndPoint(endPoint, batch)
+        let log = await scanEndPoint(endPoint, batch)
+        await sendNotification(log);
     }
 };
 

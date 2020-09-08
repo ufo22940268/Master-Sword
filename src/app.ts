@@ -18,21 +18,8 @@ const MongoStore = mongo(session);
 // Create Express server
 const app = express();
 
-// Connect to MongoDB
-const mongoUrl = MONGODB_URI;
-mongoose.Promise = bluebird;
-
-// mongoose.set('debug', true)
-
-mongoose.connect(mongoUrl, {
-    useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false
-}).then(
-    () => { /** ready to use. The `mongoose.connect()` promise resolves to undefined. */
-    },
-).catch(err => {
-    console.log(`MongoDB connection error. Please make sure MongoDB is running. ${err}`);
-    // process.exit();
-});
+import './util/initMongo'
+import {mongoUrl} from "./util/initMongo";
 
 // Express configuration
 app.set('port', process.env.PORT || 3000);
