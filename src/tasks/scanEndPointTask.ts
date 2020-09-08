@@ -57,8 +57,6 @@ async function sendNotification(log: ScanLogDocument) {
     }
 
     await User.populate(log, {path: 'endPoint.user'});
-    console.log('log: ' + JSON.stringify(log, null, 4) + '\n');
-
     await pushAPNS(log.endPoint.user, message);
 }
 
