@@ -11,6 +11,7 @@ import {MONGODB_URI, SESSION_SECRET} from './util/secrets';
 import {User} from './models/User';
 import * as EndPointController from './controllers/endPointController';
 import * as UserController from './controllers/userController';
+import * as ScanLogController from './controllers/scanLogController';
 import routerWrapper from './util/routerWrapper';
 
 const MongoStore = mongo(session);
@@ -63,6 +64,8 @@ app.post('/user/update/notificationtoken', UserController.updateNotificationToke
 
 app.post('/endpoint/upsert', EndPointController.postUpsertEndPoint);
 app.post('/endpoint/delete', EndPointController.postDeleteEndPoint);
+
+app.get('/scanlog/list', ScanLogController.getListScanLogs);
 
 
 export default app;
