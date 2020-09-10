@@ -51,6 +51,7 @@
     "pug": "^2.0.4",
     "node-fetch": "^2.6.0",
     "winston": "^3.2.1",
+    "moment": "^2.27.0",
     "apn": "^2.2.0"
   },
   "devDependencies": {

@@ -7,6 +7,7 @@ export interface ScanLogDocument extends mongoose.Document {
     batch: ScanBatchDocument,
     duration: number,
     fields: ScanLogField[],
+    createdAt: Date,
     data: string
 }
 
