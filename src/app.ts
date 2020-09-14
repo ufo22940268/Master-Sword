@@ -66,6 +66,7 @@ app.post('/endpoint/upsert', EndPointController.postUpsertEndPoint);
 app.post('/endpoint/delete', EndPointController.postDeleteEndPoint);
 
 app.get('/scanlog/list', ScanLogController.getListScanLogs);
+app.get('/scanlog/:id', ScanLogController.getScanLog);
 
 
 export default app;

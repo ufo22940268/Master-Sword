@@ -9,6 +9,9 @@ export interface ScanLogDocument extends mongoose.Document {
     fields: ScanLogField[],
     createdAt: Date,
     data: string
+    requestHeader: string,
+    responseHeader: string,
+    statusCode: number,
 }
 
 export interface ScanLogField {
@@ -31,6 +34,9 @@ const scanLogSchema = new mongoose.Schema({
     endPoint: {type: Schema.Types.ObjectId, ref: 'EndPoint'},
     duration: Number,
     batch: {type: Schema.Types.ObjectId, ref: 'ScanBatch'},
+    requestHeader: String,
+    responseHeader: String,
+    statusCode: Number,
     data: String,
     fields: [scanLogFieldSchema]
 }, {timestamps: true});

@@ -9,7 +9,22 @@ export const getListScanLogs = routerWrapper(async (req: Request, res: Response)
     return (await ScanLog.find({endPoint: {$in: endPoints.map(t => t._id)}}).sort({createdAt: -1}).limit(80)).map(t => ({
         duration: t.duration,
         time: t.createdAt,
-        url: (endPoints.find(e => e._id.equals(t.endPoint._id)) || {}).url
+        url: (endPoints.find(e => e._id.equals(t.endPoint._id)) || {}).url,
+        id: ''
     }))
 });
+
+export const getScanLog = routerWrapper(async (req: Request, res: Response) => {
+    let id = req.params.id
+    let log = await ScanLog.findById(id);
+    return {
+        'responseHeader': log.responseHeader,
+        'requestHeader': log.requestHeader,
+        'responseBody': log.data,
+        'statusCode': log.statusCode,
+        'time': log.createdAt,
+        'duration': log.duration
+    }
+});
+
 
