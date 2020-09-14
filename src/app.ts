@@ -65,7 +65,8 @@ app.post('/user/update/notificationtoken', UserController.updateNotificationToke
 app.post('/endpoint/upsert', EndPointController.postUpsertEndPoint);
 app.post('/endpoint/delete', EndPointController.postDeleteEndPoint);
 
-app.get('/scanlog/list', ScanLogController.getListScanLogs);
+app.get('/scanlog/list', ScanLogController.listScanLogs);
+app.get('/scanlog/list/:endPointId', ScanLogController.listScanLogsByEndPoint);
 app.get('/scanlog/:id', ScanLogController.getScanLog);
 
 

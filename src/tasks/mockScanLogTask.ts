@@ -11,6 +11,9 @@ let mockScanLogTask = async (endPointId: string) => {
     for (let i = 20; i > 0; i--) {
         let date = moment().subtract(5 * i, "minute");
         let scanLog = new ScanLog();
+        if (i == 1) {
+            scanLog._id = "5f5f130360d3d76e96adc738"
+        }
         scanLog.endPoint = endPoint;
         scanLog.duration = Math.random() * 100;
         scanLog.createdAt = date.toDate();
@@ -30,6 +33,7 @@ Proxy-Connection: keep-alive
   "followers_url": "https://api.github.com/user/followers"
 }
         `;
+        scanLog.statusCode = 200
         await scanLog.save();
     }
 }
