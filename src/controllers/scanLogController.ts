@@ -30,10 +30,10 @@ export const getScanLog = routerWrapper(async (req: Request, res: Response) => {
     let id = req.params.id
     let log = await ScanLog.findById(id);
     return {
-        'responseHeader': log.responseHeader.trim(),
-        'requestHeader': log.requestHeader.trim(),
+        'responseHeader': log.responseHeader || '',
+        'requestHeader': log.requestHeader || '',
         'responseBody': log.data,
-        'statusCode': log.statusCode,
+        'statusCode': log.statusCode || 500,
         'time': log.createdAt,
         'duration': log.duration
     }

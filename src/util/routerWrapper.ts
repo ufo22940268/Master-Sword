@@ -31,11 +31,8 @@ function routerWrapper(validatorsOrFunc: [ValidationChain] | ApiFunc, optionalFu
       let r = await func(req, res);
       res.send({ result: r, ok: true });
     } catch (e) {
-      if (!Array.isArray(e)) {
-        e = [e];
-      }
-      e.forEach((t:any) => console.error(t));
-      res.status(500).send({ ok: false, errors: e });
+      console.error(e)
+      res.status(500).send({ ok: false, error: e.stack });
     }
   };
 }

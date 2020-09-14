@@ -21,18 +21,18 @@ let mockScanLogTask = async (endPointId: string) => {
         CONNECT bolt.dropbox.com:443 HTTP/1.1
 Host: bolt.dropbox.com
 Proxy-Connection: keep-alive
-        `
+        `.trim()
         scanLog.responseHeader = `
         CONNECT bolt.dropbox.com:443 HTTP/1.1
 Host: bolt.dropbox.com
 Proxy-Connection: keep-alive
-        `
+        `.trim()
         scanLog.data = `
         {
   "feeds_urlonline": "https://api.github.com/feeds",
   "followers_url": "https://api.github.com/user/followers"
 }
-        `;
+        `.trim();
         scanLog.statusCode = 200
         await scanLog.save();
     }
