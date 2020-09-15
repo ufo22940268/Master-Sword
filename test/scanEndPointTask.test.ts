@@ -15,17 +15,20 @@ describe('Scan EndPoint', () => {
 
     beforeEach(async () => {
         await mongoose.connection.dropDatabase();
+
+        user = new User();
+        user.appleId = 'id1';
+        await user.save();
+
         endPoint = new EndPoint();
         endPoint.url = 'https://success.com/';
         endPoint.watchFields = [{
             path: 'a',
             value: '3'
         }]
+        endPoint.user = user;
         await endPoint.save();
 
-        user = new User();
-        user.appleId = 'id1';
-        await user.save();
         agent = new RequestAgent(user);
 
         fetchMock.mockIf(/success/, '{"a": 3, "ar": [{"j": 10}], "b": {"c": 10}}')
@@ -57,6 +60,7 @@ describe('Scan EndPoint', () => {
             expect(log.fields[0].match).toBeFalsy();
             expect(log.fields[1].match).toBeTruthy();
             expect(log.fields[2].match).toBeTruthy();
+            expect(log.errorCount).toBeGreaterThan(0);
         });
     })
 });

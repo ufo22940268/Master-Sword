@@ -12,6 +12,7 @@ export interface ScanLogDocument extends mongoose.Document {
     requestHeader: string,
     responseHeader: string,
     statusCode: number,
+    errorCount: number
 }
 
 export interface ScanLogField {
@@ -37,6 +38,7 @@ const scanLogSchema = new mongoose.Schema({
     requestHeader: String,
     responseHeader: String,
     statusCode: Number,
+    errorCount: Number,
     data: String,
     fields: [scanLogFieldSchema]
 }, {timestamps: true});

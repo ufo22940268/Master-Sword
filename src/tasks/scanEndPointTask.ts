@@ -1,12 +1,11 @@
 import fetch from "node-fetch"
 import {EndPoint, EndPointDocument} from "../models/EndPoint";
-import {ScanLogField, ScanLog, ScanLogDocument} from "../models/ScanLog";
+import {ScanLog, ScanLogDocument, ScanLogField} from "../models/ScanLog";
 import {ScanBatch, ScanBatchDocument} from "../models/scanBatch";
 import {JSONValidator} from "../util/JSONValidator";
 import "../util/initMongo";
 import {APNMessage, pushAPNS} from "../util/notification";
 import {User} from "../models/User";
-import {error} from "shelljs";
 
 export const scanEndPoint = async (endPoint: EndPointDocument, batch: ScanBatchDocument): Promise<ScanLogDocument> => {
     let startTime = new Date();
@@ -27,11 +26,13 @@ export const scanEndPoint = async (endPoint: EndPointDocument, batch: ScanBatchD
         console.error(e)
     }
 
+    let errorCount = 0;
     if (json) {
         let jsonValidator = new JSONValidator(json);
         for (let watchField of endPoint.watchFields) {
             let field: ScanLogField
             let {match, value} = jsonValidator.validate(watchField.path, watchField.value);
+            if (!match) errorCount += 1;
             field = {expectValue: watchField.value, match, path: watchField.path, value}
             fields.push(field);
         }
@@ -39,8 +40,10 @@ export const scanEndPoint = async (endPoint: EndPointDocument, batch: ScanBatchD
         fields = endPoint.watchFields.map((watchField): ScanLogField => {
             return {expectValue: watchField.value, match: false, path: watchField.path, value: ""};
         });
+        errorCount = endPoint.watchFields.length
     }
 
+    log.errorCount = errorCount;
     log.duration = duration;
     log.fields = fields
     log.data = text
