@@ -1,4 +1,5 @@
 import fetch from "node-fetch"
+import {Headers, Request} from 'node-fetch'
 import {EndPoint, EndPointDocument} from "../models/EndPoint";
 import {ScanLog, ScanLogDocument, ScanLogField} from "../models/ScanLog";
 import {ScanBatch, ScanBatchDocument} from "../models/scanBatch";
@@ -7,12 +8,20 @@ import "../util/initMongo";
 import {APNMessage, pushAPNS} from "../util/notification";
 import {User} from "../models/User";
 
+const headersToString = (headers: Headers) => {
+    let obj = headers.raw()
+    return Object.entries(obj).map(t => `${t[0]}:${t[1]}`).join('\n')
+}
+
 export const scanEndPoint = async (endPoint: EndPointDocument, batch: ScanBatchDocument): Promise<ScanLogDocument> => {
     let startTime = new Date();
 
-    let response = await fetch(endPoint.url, {timeout: 5000});
+    let request = new Request(endPoint.url);
+    let response = await fetch(request, {timeout: 5000});
 
     let log = new ScanLog()
+    log.responseHeader = headersToString(response.headers);
+    log.requestHeader = '';
     log.batch = batch;
     log.endPoint = endPoint
 

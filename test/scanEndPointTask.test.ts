@@ -61,6 +61,9 @@ describe('Scan EndPoint', () => {
             expect(log.fields[1].match).toBeTruthy();
             expect(log.fields[2].match).toBeTruthy();
             expect(log.errorCount).toBeGreaterThan(0);
+            expect(log).toHaveProperty('requestHeader', expect.anything());
+            expect(log).toHaveProperty('responseHeader', expect.anything());
+            expect(log).toHaveProperty('data', expect.anything());
         });
     })
 });
