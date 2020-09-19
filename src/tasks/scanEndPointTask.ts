@@ -27,7 +27,7 @@ export const scanEndPoint = async (endPoint: EndPointDocument, batch: ScanBatchD
 
     let fields: ScanLogField[] = [];
     let text = await response.text();
-    let duration = Date.now() - startTime.getTime();
+    let duration = (Date.now() - startTime.getTime())/1000;
     let json = null;
     try {
         json = JSON.parse(text)

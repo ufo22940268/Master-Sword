@@ -5,6 +5,7 @@ import {ScanBatchDocument} from "./scanBatch";
 export interface ScanLogDocument extends mongoose.Document {
     endPoint: EndPointDocument,
     batch: ScanBatchDocument,
+    //Always use seconds as unit.
     duration: number,
     fields: ScanLogField[],
     createdAt: Date,
@@ -33,7 +34,10 @@ const scanLogFieldSchema = new mongoose.Schema({
 
 const scanLogSchema = new mongoose.Schema({
     endPoint: {type: Schema.Types.ObjectId, ref: 'EndPoint'},
+
+    //Always use seconds as unit. Keep the unit the same as iOS.
     duration: Number,
+
     batch: {type: Schema.Types.ObjectId, ref: 'ScanBatch'},
     requestHeader: String,
     responseHeader: String,

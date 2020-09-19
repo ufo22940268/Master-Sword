@@ -1,4 +1,4 @@
-import {Request, Response, NextFunction} from 'express';
+import {Request, Response} from 'express';
 import routerWrapper from '../util/routerWrapper';
 import {EndPoint} from "../models/EndPoint";
 import {ScanLog} from "../models/ScanLog";
@@ -9,7 +9,7 @@ export const listScanLogsByEndPoint = routerWrapper(async (req: Request, res: Re
     return (await ScanLog.find({endPoint: endPointId}).sort({createdAt: -1}).limit(80)).map(t => ({
         duration: t.duration,
         statusCode: t.statusCode || 500,
-        errorCount: Math.floor(Math.random() * 10),
+        errorCount: t.errorCount,
         time: t.createdAt,
         id: t.id
     }))
@@ -23,7 +23,7 @@ export const listScanLogs = routerWrapper(async (req: Request, res: Response) =>
         duration: t.duration,
         time: t.createdAt,
         endPointId: t.endPoint.toString(),
-        errorCount: Math.floor(Math.random() * 10),
+        errorCount: t.errorCount,
         url: (endPoints.find(e => e._id.equals(t.endPoint._id)) || {}).url,
         id: t.id
     }))
@@ -38,8 +38,13 @@ export const getScanLog = routerWrapper(async (req: Request, res: Response) => {
         responseBody: log.data,
         statusCode: log.statusCode || 500,
         time: log.createdAt,
-        errorCount: Math.floor(Math.random() * 10),
-        duration: log.duration
+        errorCount: log.errorCount,
+        duration: log.duration,
+        fields: log.fields.map(t => ({
+            path: t.path,
+            value: t.value,
+            watchValue: t.expectValue
+        }))
     }
 });
 
