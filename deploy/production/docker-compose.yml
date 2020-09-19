@@ -9,3 +9,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: qo19NJfonsbc
+  biubiubiu:
+    image: ufo22940268/biubiubiu
+    container_name: biu
+    ports:
+      - "3000:3000"
