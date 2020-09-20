@@ -1,11 +1,6 @@
-FROM node:12
+FROM ufo22940268/biubiubiu-base
 
-RUN mkdir /code
 WORKDIR /code
-
-COPY package.json package-lock.json ./
-
-RUN npm install
 
 COPY tsconfig.json ./
 COPY .env ./.env
