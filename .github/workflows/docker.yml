@@ -7,13 +7,6 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy
-        uses: appleboy/jenkins-action@master
-        with:
-          url: "https://jenkins.biubiubiu.biz"
-          user: "cc"
-          token: ${{ secrets.JENKINS_TOKEN }}
-          job: "Update biubiubiu"
       - name: Checkout
         uses: actions/checkout@v2
       - name: Set up QEMU
@@ -35,3 +28,10 @@ jobs:
           tags: ufo22940268/biubiubiu:latest
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+      - name: Deploy
+        uses: appleboy/jenkins-action@master
+        with:
+          url: "https://jenkins.biubiubiu.biz"
+          user: "cc"
+          token: ${{ secrets.JENKINS_TOKEN }}
+          job: "Update biubiubiu"
