@@ -17,6 +17,7 @@
     "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
     "nodemon-serve": "nodemon -e ts -w src src/server.ts",
     "serve": "node dist/server.js",
+    "serve-ts": "node -r ts-node/register src/server.ts",
     "serve-debug": "nodemon --inspect dist/server.js",
     "start": "npm run serve",
     "travis-test": "jest --forceExit --coverage --verbose",
