@@ -79,7 +79,7 @@ export const scanEndPoints = async () => {
     for (let endPoint of await EndPoint.find()) {
         try {
             let log = await scanEndPoint(endPoint, batch)
-            await sendNotification(log);
+            // await sendNotification(log);
         } catch (e) {
             console.error(e)
         }
