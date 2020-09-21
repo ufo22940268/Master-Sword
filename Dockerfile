@@ -1,6 +1,12 @@
+FROM node:12
 FROM ufo22940268/biubiubiu-base
 
+RUN mkdir /code
 WORKDIR /code
+
+COPY package.json package-lock.json ./
+
+RUN npm install
 
 COPY tsconfig.json ./
 COPY .env ./.env
@@ -10,5 +16,4 @@ COPY src ./src
 EXPOSE 3000
 
 ENV NODE_ENV production
-CMD npm run serve-ts
-
+ENTRYPOINT npm run serve-ts
