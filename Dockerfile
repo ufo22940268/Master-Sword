@@ -1,5 +1,4 @@
 FROM node:12
-FROM ufo22940268/biubiubiu-base
 
 RUN mkdir /code
 WORKDIR /code
