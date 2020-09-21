@@ -9,7 +9,8 @@ export interface APNMessage {
 let service = new apn.Provider({
     cert: path.join(__dirname, '../../keys/cert.pem'),
     key: path.join(__dirname, '../../keys/apns-dev-cert.pem'),
-    production: process.env.NODE_ENV == 'production'
+    // production: process.env.NODE_ENV == 'production'
+    production: false
 });
 
 export const pushAPNS = async (user: UserDocument, message: APNMessage) => {
