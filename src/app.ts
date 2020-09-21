@@ -59,6 +59,7 @@ app.use(async (req, res, next) => {
     res.locals.user = user;
     next();
 });
+console.log()
 
 app.post('/user/update/notificationtoken', UserController.updateNotificationToken);
 
