@@ -1,15 +1,17 @@
 import request from 'supertest';
 import app from '../src/app';
 import mongoose from 'mongoose';
-import {EndPoint} from '../src/models/EndPoint';
+import {EndPoint, EndPointDocument} from '../src/models/EndPoint';
 import {User, UserDocument} from '../src/models/User';
 import RequestAgent from './RequestAgent';
-
+import {ScanLog} from "../src/models/ScanLog";
+import fetchMock from 'jest-fetch-mock'
 
 describe('EndPoint Api', () => {
 
     let user: UserDocument;
     let agent: RequestAgent;
+    let endPoint: EndPointDocument;
 
     beforeEach(async () => {
         await mongoose.connection.dropDatabase();
@@ -17,12 +19,13 @@ describe('EndPoint Api', () => {
         user.appleId = 'ijijwef';
         await user.save();
 
-        let endPoint = new EndPoint();
+        endPoint = new EndPoint();
         endPoint.url = 'u2';
         endPoint.user = user;
         await endPoint.save();
 
         agent = new RequestAgent(user);
+        fetchMock.mockIf(/.*/, '{"a": 3, "ar": [{"j": 10}], "b": {"c": 10}}')
     });
 
     const post = (url: string) => {
@@ -52,6 +55,20 @@ describe('EndPoint Api', () => {
         expect(ep.watchFields[0])
             .toEqual(expect.objectContaining({path: 'p2', value: 'v1'}));
     });
+
+    it('should sync', async () => {
+        await post('/endpoint/sync')
+            .send([{url: 'u1', watchFields: [{path: 'p1', value: 'v1'}]}]);
+        let ep = await EndPoint.findOne({url: 'u1'});
+        expect(ep).toHaveProperty('url', 'u1');
+        expect(ep.watchFields[0])
+            .toEqual(expect.objectContaining({path: 'p1', value: 'v1'}));
+    })
+
+    it('should scan endpoints', async () => {
+        await post('/endpoint/scan')
+        expect(await ScanLog.countDocuments({endPoint: endPoint})).toBeGreaterThan(0);
+    })
 
     it('should delete endpoint', async () => {
         await post('/endpoint/delete')

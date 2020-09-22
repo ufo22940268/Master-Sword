@@ -39,12 +39,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-//@ts-ignore
-app.get('/test', routerWrapper(async (req, res) => {
-    await Promise.reject('iiijj');
-    res.send('test .......');
-}));
-
 app.post('/user/login', UserController.postLogin);
 
 app.use(async (req, res, next) => {
@@ -63,11 +57,19 @@ app.use(async (req, res, next) => {
 app.post('/user/update/notificationtoken', UserController.updateNotificationToken);
 
 app.post('/endpoint/upsert', EndPointController.postUpsertEndPoint);
+app.post('/endpoint/sync', EndPointController.postSyncEndPoints);
 app.post('/endpoint/delete', EndPointController.postDeleteEndPoint);
+app.post('/endpoint/scan', EndPointController.postScanEndPoint);
 
 app.get('/scanlog/list', ScanLogController.listScanLogs);
 app.get('/scanlog/list/:endPointId', ScanLogController.listScanLogsByEndPoint);
 app.get('/scanlog/:id', ScanLogController.getScanLog);
 
+app.use((req, res, next) => {
+    if (process.env.TEST) {
+        console.error('404 not found');
+    }
+    next()
+});
 
 export default app;

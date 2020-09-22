@@ -5,7 +5,6 @@ import RequestAgent from './RequestAgent';
 import {scanEndPoints} from '../src/tasks/scanEndPointTask';
 import {ScanLog} from '../src/models/ScanLog';
 import fetchMock from 'jest-fetch-mock'
-import fetch from "node-fetch";
 
 describe('Scan EndPoint', () => {
 

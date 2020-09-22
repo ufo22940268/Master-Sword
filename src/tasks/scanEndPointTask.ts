@@ -13,7 +13,7 @@ const headersToString = (headers: Headers) => {
     return Object.entries(obj).map(t => `${t[0]}:${t[1]}`).join('\n')
 }
 
-export const scanEndPoint = async (endPoint: EndPointDocument, batch: ScanBatchDocument): Promise<ScanLogDocument> => {
+export const scanEndPoint = async (endPoint: EndPointDocument, batch?: ScanBatchDocument): Promise<ScanLogDocument> => {
     let startTime = new Date();
 
     let request = new Request(endPoint.url);
