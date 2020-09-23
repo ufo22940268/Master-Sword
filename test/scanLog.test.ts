@@ -4,6 +4,7 @@ import {ScanLog, ScanLogDocument} from '../src/models/ScanLog';
 import {User, UserDocument} from '../src/models/User';
 import RequestAgent from './RequestAgent';
 import '../src/util/initMongo'
+import {deleteCollectionsBeforeTest} from "./dbHelper";
 
 describe('ScanLog Api', () => {
 
@@ -13,7 +14,8 @@ describe('ScanLog Api', () => {
     let endPoint: EndPointDocument;
 
     beforeEach(async () => {
-        await mongoose.connection.dropDatabase();
+        await deleteCollectionsBeforeTest()
+
         user = new User();
         user.appleId = 'ijijwef';
         await user.save();

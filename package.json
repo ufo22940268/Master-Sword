@@ -18,7 +18,7 @@
     "nodemon-serve": "nodemon -e ts -w src src/server.ts",
     "serve-ts": "node -r ts-node/register src/server.ts",
     "travis-test": "jest --forceExit --coverage --verbose",
-    "test": "jest --runInBand --forceExit --coverage --verbose"
+    "test": "jest --runInBand --forceExit"
   },
   "dependencies": {
     "async": "^3.1.0",

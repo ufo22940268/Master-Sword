@@ -5,6 +5,7 @@ import {EndPoint} from '../src/models/EndPoint';
 import {User, UserDocument} from '../src/models/User';
 import RequestAgent from './RequestAgent';
 import '../src/util/initMongo'
+import {deleteCollectionsBeforeTest} from "./dbHelper";
 
 
 describe('User Api', () => {
@@ -13,20 +14,7 @@ describe('User Api', () => {
     let agent: RequestAgent;
 
     beforeEach(async () => {
-        await mongoose.connection.dropDatabase();
-        // const collections = mongoose.connection.collections;
-        //
-        // for (let collection of collections) {
-        //     await collection.drop();
-        // }
-        // Object.keys(mongoose.connection.collections).map(async col => {
-        //     console.log('col: ' + JSON.stringify(col, null, 4) + '\n');
-        //     try {
-        //         await mongoose.connection.collections[col].drop();
-        //     } finally {
-        //     }
-        // })
-
+        await deleteCollectionsBeforeTest()
         user = new User();
         user.appleId = 'id1';
         await user.save();

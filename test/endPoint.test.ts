@@ -7,6 +7,7 @@ import RequestAgent from './RequestAgent';
 import {ScanLog} from "../src/models/ScanLog";
 import fetchMock from 'jest-fetch-mock'
 import '../src/util/initMongo'
+import {deleteCollectionsBeforeTest} from "./dbHelper";
 
 describe('EndPoint Api', () => {
 
@@ -15,7 +16,8 @@ describe('EndPoint Api', () => {
     let endPoint: EndPointDocument;
 
     beforeEach(async () => {
-        await mongoose.connection.dropDatabase();
+        await deleteCollectionsBeforeTest()
+
         user = new User();
         user.appleId = 'ijijwef';
         await user.save();
