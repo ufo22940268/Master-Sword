@@ -3,7 +3,7 @@ import {EndPoint, EndPointDocument} from '../src/models/EndPoint';
 import {ScanLog, ScanLogDocument} from '../src/models/ScanLog';
 import {User, UserDocument} from '../src/models/User';
 import RequestAgent from './RequestAgent';
-
+import '../src/util/initMongo'
 
 describe('ScanLog Api', () => {
 

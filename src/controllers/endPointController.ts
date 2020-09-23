@@ -3,7 +3,8 @@ import routerWrapper from '../util/routerWrapper';
 import {EndPointDocument, EndPoint} from '../models/EndPoint';
 import {UserDocument} from "../models/User";
 import {scanEndPoint} from "../tasks/scanEndPointTask";
-
+import {ScanLog} from "../models/ScanLog";
+import moment from "moment";
 
 let upsertEndPoint = async function (user: UserDocument, body: any) {
     let ep = await EndPoint.findOne({url: body.url, user: user});
@@ -15,6 +16,7 @@ let upsertEndPoint = async function (user: UserDocument, body: any) {
     ep.watchFields = body.watchFields;
     await ep.save();
 };
+
 export const postUpsertEndPoint = routerWrapper(async (req: Request, res: Response) => {
     let user = res.locals.user;
     let b = req.body;
@@ -40,7 +42,13 @@ export const postSyncEndPoints = routerWrapper(async (req: Request, res: Respons
 export const postScanEndPoint = routerWrapper(async (req: Request, res: Response) => {
     let {user} = res.locals;
     let endPoints = await EndPoint.find({user})
-    //TODO Check if scan log exists first.
+    if (await ScanLog.findOne({
+        endPoint: {$in: endPoints.map(t => t.id)},
+        createdAt: {$gt: moment().subtract(1, 'week').toDate()}
+    })) {
+        return;
+    }
+
     for (let endPoint of endPoints) {
         await scanEndPoint(endPoint)
     }

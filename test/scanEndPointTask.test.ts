@@ -5,6 +5,7 @@ import RequestAgent from './RequestAgent';
 import {scanEndPoints} from '../src/tasks/scanEndPointTask';
 import {ScanLog} from '../src/models/ScanLog';
 import fetchMock from 'jest-fetch-mock'
+import '../src/util/initMongo'
 
 describe('Scan EndPoint', () => {
 

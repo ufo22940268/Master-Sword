@@ -6,6 +6,7 @@ import {User, UserDocument} from '../src/models/User';
 import RequestAgent from './RequestAgent';
 import {ScanLog} from "../src/models/ScanLog";
 import fetchMock from 'jest-fetch-mock'
+import '../src/util/initMongo'
 
 describe('EndPoint Api', () => {
 
