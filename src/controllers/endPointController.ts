@@ -1,6 +1,6 @@
-import {Request, Response, NextFunction} from 'express';
+import {Request, Response} from 'express';
 import routerWrapper from '../util/routerWrapper';
-import {EndPointDocument, EndPoint} from '../models/EndPoint';
+import {EndPoint} from '../models/EndPoint';
 import {UserDocument} from "../models/User";
 import {scanEndPoint} from "../tasks/scanEndPointTask";
 import {ScanLog} from "../models/ScanLog";
@@ -52,4 +52,9 @@ export const postScanEndPoint = routerWrapper(async (req: Request, res: Response
     for (let endPoint of endPoints) {
         await scanEndPoint(endPoint)
     }
+});
+
+export const getListEndPointForSync = routerWrapper(async (req: Request, res: Response) => {
+    let {user} = res.locals;
+    return EndPoint.find({user});
 });

@@ -68,6 +68,12 @@ describe('EndPoint Api', () => {
             .toEqual(expect.objectContaining({path: 'p1', value: 'v1'}));
     })
 
+    it('should list endpoints to sync from', async () => {
+        let {body: {result}} = await agent.get('/endpoint/sync/list')
+        expect(result).toHaveLength(1);
+        expect(result[0]).toHaveProperty('url');
+    })
+
     it('should scan endpoints', async () => {
         await post('/endpoint/scan')
         expect(await ScanLog.countDocuments({endPoint: endPoint})).toBeGreaterThan(0);

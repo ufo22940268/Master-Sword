@@ -58,6 +58,7 @@ app.post('/user/update/notificationtoken', UserController.updateNotificationToke
 
 app.post('/endpoint/upsert', EndPointController.postUpsertEndPoint);
 app.post('/endpoint/sync', EndPointController.postSyncEndPoints);
+app.get('/endpoint/sync/list', EndPointController.getListEndPointForSync);
 app.post('/endpoint/delete', EndPointController.postDeleteEndPoint);
 app.post('/endpoint/scan', EndPointController.postScanEndPoint);
 
