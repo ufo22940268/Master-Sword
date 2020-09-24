@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import {EndPoint, EndPointDocument} from '../src/models/EndPoint';
 import {User, UserDocument} from '../src/models/User';
 import RequestAgent from './RequestAgent';

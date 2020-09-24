@@ -13,7 +13,8 @@ export interface ScanLogDocument extends mongoose.Document {
     requestHeader: string,
     responseHeader: string,
     statusCode: number,
-    errorCount: number
+    errorCount: number,
+    hasIssue: boolean
 }
 
 export interface ScanLogField {
@@ -46,5 +47,10 @@ const scanLogSchema = new mongoose.Schema({
     data: String,
     fields: [scanLogFieldSchema]
 }, {timestamps: true});
+
+scanLogSchema.virtual("hasIssue").get(function () {
+    return this.fields?.some((f: any) => !f.match);
+});
+
 
 export const ScanLog = mongoose.model<ScanLogDocument>('ScanLog', scanLogSchema);
