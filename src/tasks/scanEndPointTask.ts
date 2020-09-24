@@ -14,6 +14,7 @@ const headersToString = (headers: Headers) => {
 }
 
 export const scanEndPoint = async (endPoint: EndPointDocument, batch?: ScanBatchDocument): Promise<ScanLogDocument> => {
+    console.log('----------scanEndPoint')
     let startTime = new Date();
 
     let request = new Request(endPoint.url);
@@ -79,7 +80,7 @@ export const scanEndPoints = async () => {
     for (let endPoint of await EndPoint.find()) {
         try {
             let log = await scanEndPoint(endPoint, batch)
-            if (log && log.hasIssue) {
+            if (log?.hasIssue) {
                 await sendNotification(log);
             }
         } catch (e) {

@@ -1,11 +1,15 @@
 import {EndPoint, EndPointDocument} from '../src/models/EndPoint';
 import {User, UserDocument} from '../src/models/User';
 import RequestAgent from './RequestAgent';
-import {scanEndPoints} from '../src/tasks/scanEndPointTask';
 import {ScanLog} from '../src/models/ScanLog';
 import fetchMock from 'jest-fetch-mock'
 import '../src/util/initMongo'
 import {deleteCollectionsBeforeTest} from "./dbHelper";
+
+jest.mock('../src/util/notification')
+import {scanEndPoints} from '../src/tasks/scanEndPointTask';
+import {pushAPNS} from "../src/util/notification";
+import {mocked} from "ts-jest/utils";
 
 describe('Scan EndPoint', () => {
 
@@ -64,6 +68,7 @@ describe('Scan EndPoint', () => {
             expect(log).toHaveProperty('requestHeader', expect.anything());
             expect(log).toHaveProperty('responseHeader', expect.anything());
             expect(log).toHaveProperty('data', expect.anything());
+            expect(pushAPNS).toBeCalled();
         });
     })
 });
