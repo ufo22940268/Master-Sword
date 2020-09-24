@@ -14,6 +14,7 @@ export interface ScanLogDocument extends mongoose.Document {
     responseHeader: string,
     statusCode: number,
     errorCount: number,
+    notified: boolean,
     hasIssue: boolean
 }
 
@@ -45,6 +46,7 @@ const scanLogSchema = new mongoose.Schema({
     statusCode: Number,
     errorCount: Number,
     data: String,
+    notified: Boolean,
     fields: [scanLogFieldSchema]
 }, {timestamps: true});
 

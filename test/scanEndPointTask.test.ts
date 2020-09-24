@@ -69,6 +69,10 @@ describe('Scan EndPoint', () => {
             expect(log).toHaveProperty('responseHeader', expect.anything());
             expect(log).toHaveProperty('data', expect.anything());
             expect(pushAPNS).toBeCalled();
+            expect(pushAPNS).toBeCalledWith(expect.anything(),expect.objectContaining({content: expect.stringContaining('error')}) );
+            mocked(pushAPNS).mockReset();
+            await scanEndPoints();
+            expect(pushAPNS).not.toBeCalled();
         });
     })
 });

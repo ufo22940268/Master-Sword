@@ -7,6 +7,8 @@ import {JSONValidator} from "../util/JSONValidator";
 import "../util/initMongo";
 import {APNMessage, pushAPNS} from "../util/notification";
 import {User} from "../models/User";
+import moment from "moment";
+import {create} from "domain";
 
 const headersToString = (headers: Headers) => {
     let obj = headers.raw()
@@ -14,7 +16,6 @@ const headersToString = (headers: Headers) => {
 }
 
 export const scanEndPoint = async (endPoint: EndPointDocument, batch?: ScanBatchDocument): Promise<ScanLogDocument> => {
-    console.log('----------scanEndPoint')
     let startTime = new Date();
 
     let request = new Request(endPoint.url);
@@ -72,6 +73,13 @@ async function sendNotification(log: ScanLogDocument) {
 
     await User.populate(log, {path: 'endPoint.user'});
     await pushAPNS(log.endPoint.user, message);
+    log.notified = true;
+    await log.save();
+}
+
+async function isSentRecently(log: ScanLogDocument) {
+    let begin = moment(log.createdAt).subtract(10, 'minutes');
+    return !!(await ScanLog.findOne({createdAt: {$gt: begin}, notified: true}));
 }
 
 export const scanEndPoints = async () => {
@@ -80,7 +88,7 @@ export const scanEndPoints = async () => {
     for (let endPoint of await EndPoint.find()) {
         try {
             let log = await scanEndPoint(endPoint, batch)
-            if (log?.hasIssue) {
+            if (log?.hasIssue && !await isSentRecently(log)) {
                 await sendNotification(log);
             }
         } catch (e) {
