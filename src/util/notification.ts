@@ -21,6 +21,7 @@ export const pushAPNS = async (user: UserDocument, message: APNMessage) => {
     note.alert = message.content;
     note.topic = 'com.bettycc.Link'
 
+
     const r = await service.send(note, [notificationToken])
     console.log('r: ' + JSON.stringify(r, null, 4) + '\n');
 };
