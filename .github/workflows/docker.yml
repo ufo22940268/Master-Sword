@@ -35,7 +35,7 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache
       - name: test
         id: docker_test
-        run: docker run  -e NODE_ENV=development -e CI=true d npm run test
+        run: docker run  -e NODE_ENV=development -e CI=true ufo22940268/biubiubiu npm run test
       - name: Deploy
         uses: appleboy/jenkins-action@master
         with:
