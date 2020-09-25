@@ -3,7 +3,7 @@ import routerWrapper from '../util/routerWrapper';
 import {EndPoint} from '../models/endPoint';
 import {UserDocument} from "../models/user";
 import {scanEndPoint} from "../tasks/scanEndPointTask";
-import {ScanLog} from "../models/ScanLog";
+import {ScanLog} from "../models/scanLog";
 import moment from "moment";
 
 let upsertEndPoint = async function (user: UserDocument, body: any) {

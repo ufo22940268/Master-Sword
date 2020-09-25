@@ -1,5 +1,5 @@
 import {EndPoint} from "../models/endPoint";
-import {ScanLog} from "../models/ScanLog";
+import {ScanLog} from "../models/scanLog";
 import "../util/initMongo";
 import moment from 'moment'
 

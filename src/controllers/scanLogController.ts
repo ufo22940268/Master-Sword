@@ -1,7 +1,7 @@
 import {Request, Response} from 'express';
 import routerWrapper from '../util/routerWrapper';
 import {EndPoint} from "../models/endPoint";
-import {ScanLog} from "../models/ScanLog";
+import {ScanLog} from "../models/scanLog";
 
 
 export const listScanLogsByEndPoint = routerWrapper(async (req: Request, res: Response) => {

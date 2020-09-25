@@ -1,5 +1,5 @@
 import mongoose, {Schema, Types} from 'mongoose';
-import {EndPointDocument} from './EndPoint';
+import {EndPointDocument} from './endPoint';
 import {ScanBatchDocument} from "./scanBatch";
 
 export interface ScanLogDocument extends mongoose.Document {

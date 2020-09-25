@@ -3,7 +3,7 @@ import app from '../src/app';
 import mongoose from 'mongoose';
 import {EndPoint} from '../src/models/endPoint';
 import {User, UserDocument} from '../src/models/user';
-import RequestAgent from './RequestAgent';
+import RequestAgent from './requestAgent';
 import '../src/util/initMongo'
 import {deleteCollectionsBeforeTest} from "./dbHelper";
 

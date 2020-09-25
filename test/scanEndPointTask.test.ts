@@ -1,7 +1,7 @@
 import {EndPoint, EndPointDocument} from '../src/models/endPoint';
 import {User, UserDocument} from '../src/models/user';
-import RequestAgent from './RequestAgent';
-import {ScanLog} from '../src/models/ScanLog';
+import RequestAgent from './requestAgent';
+import {ScanLog} from '../src/models/scanLog';
 import fetchMock from 'jest-fetch-mock'
 import '../src/util/initMongo'
 import {deleteCollectionsBeforeTest} from "./dbHelper";

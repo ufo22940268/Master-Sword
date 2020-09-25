@@ -1,5 +1,5 @@
 import mongoose, {Schema} from 'mongoose';
-import {UserDocument} from "./User";
+import {UserDocument} from "./user";
 
 export type EndPointDocument = mongoose.Document & {
     url: string,
