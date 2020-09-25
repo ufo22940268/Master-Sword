@@ -73,6 +73,7 @@ async function sendNotification(log: ScanLogDocument) {
         content: `域名 ${getDomain(log.endPoint.url)} 有错误`
     }
 
+
     await User.populate(log, {path: 'endPoint.user'});
     await pushAPNS(log.endPoint.user, message);
     log.notified = true;
