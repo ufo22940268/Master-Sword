@@ -3,7 +3,7 @@ import {MONGODB_URI} from "./secrets";
 import mongoose from "mongoose";
 import bluebird from "bluebird";
 
-export const mongoUrl = MONGODB_URI;
+export const mongoUrl = process.env.CI ? process.env.MONGO_URL : MONGODB_URI;
 mongoose.Promise = bluebird;
 
 // mongoose.set('debug', true)

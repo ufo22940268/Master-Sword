@@ -4,6 +4,7 @@ module.exports = {
       tsConfig: "tsconfig.json"
     }
   },
+  preset: '@shelf/jest-mongodb',
   moduleFileExtensions: [
     "ts",
     "js"
