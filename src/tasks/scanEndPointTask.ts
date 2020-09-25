@@ -9,6 +9,7 @@ import {APNMessage, pushAPNS} from "../util/notification";
 import {User} from "../models/User";
 import moment from "moment";
 import {create} from "domain";
+import {getDomain} from "../util/url";
 
 const headersToString = (headers: Headers) => {
     let obj = headers.raw()
@@ -67,8 +68,9 @@ async function sendNotification(log: ScanLogDocument) {
         return;
     }
 
+    await ScanLog.populate(log, {path: 'endPoint'})
     let message: APNMessage = {
-        content: `watch value ${notifFields.map(f => f.value).join()} error`
+        content: `域名 ${getDomain(log.endPoint.url)} 有错误`
     }
 
     await User.populate(log, {path: 'endPoint.user'});
