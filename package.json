@@ -45,9 +45,11 @@
     "node-fetch": "^2.6.0",
     "winston": "^3.2.1",
     "moment": "^2.27.0",
+    "url-parse": "^1.4.7",
     "apn": "^2.2.0"
   },
   "devDependencies": {
+    "@types/url-parse": "^1.4.3",
     "@types/async": "^3.0.2",
     "@types/bcrypt-nodejs": "^0.0.30",
     "@types/bluebird": "^3.5.27",
