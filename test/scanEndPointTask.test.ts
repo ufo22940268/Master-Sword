@@ -1,5 +1,5 @@
-import {EndPoint, EndPointDocument} from '../src/models/EndPoint';
-import {User, UserDocument} from '../src/models/User';
+import {EndPoint, EndPointDocument} from '../src/models/endPoint';
+import {User, UserDocument} from '../src/models/user';
 import RequestAgent from './RequestAgent';
 import {ScanLog} from '../src/models/ScanLog';
 import fetchMock from 'jest-fetch-mock'

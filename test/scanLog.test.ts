@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-import {EndPoint, EndPointDocument} from '../src/models/EndPoint';
+import {EndPoint, EndPointDocument} from '../src/models/endPoint';
 import {ScanLog, ScanLogDocument} from '../src/models/ScanLog';
-import {User, UserDocument} from '../src/models/User';
+import {User, UserDocument} from '../src/models/user';
 import RequestAgent from './RequestAgent';
 import '../src/util/initMongo'
 import {deleteCollectionsBeforeTest} from "./dbHelper";

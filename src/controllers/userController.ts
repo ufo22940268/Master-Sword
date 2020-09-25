@@ -1,6 +1,6 @@
 import {Request, Response} from 'express';
 import routerWrapper from '../util/routerWrapper';
-import {User} from '../models/User';
+import {User} from '../models/user';
 import {check} from 'express-validator';
 
 export const updateNotificationToken = routerWrapper([check('notificationToken').not().isEmpty()], async (req: Request, res: Response) => {

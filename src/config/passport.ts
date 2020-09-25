@@ -1,11 +1,10 @@
 import passport from "passport";
 import passportLocal from "passport-local";
 import passportFacebook from "passport-facebook";
-import _ from "lodash";
 
-// import { User, UserType } from '../models/User';
-import { User, UserDocument } from "../models/User";
-import { Request, Response, NextFunction } from "express";
+// import { User, UserType } from '../models/user';
+import {User} from "../models/user";
+import {NextFunction, Request, Response} from "express";
 
 const LocalStrategy = passportLocal.Strategy;
 const FacebookStrategy = passportFacebook.Strategy;

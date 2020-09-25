@@ -1,4 +1,4 @@
-import {UserDocument} from "../models/User";
+import {UserDocument} from "../models/user";
 import apn from 'apn'
 import * as path from "path";
 

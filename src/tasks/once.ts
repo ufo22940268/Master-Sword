@@ -1,8 +1,8 @@
 import {pushAPNS} from "../util/notification";
-import {User} from "../models/User";
+import {User} from "../models/user";
 import '../util/initMongo'
 import {scanEndPoints} from "./scanEndPointTask";
-import {EndPoint} from "../models/EndPoint";
+import {EndPoint} from "../models/endPoint";
 
 (async () => {
     let user = await User.findOne({notificationToken: {$exists: true}})

@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
 import passport from 'passport';
 import bluebird from 'bluebird';
 import {MONGODB_URI, SESSION_SECRET} from './util/secrets';
-import {User} from './models/User';
+import {User} from './models/user';
 import * as EndPointController from './controllers/endPointController';
 import * as UserController from './controllers/userController';
 import * as ScanLogController from './controllers/scanLogController';

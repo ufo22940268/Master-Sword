@@ -1,12 +1,12 @@
 import fetch from "node-fetch"
 import {Headers, Request} from 'node-fetch'
-import {EndPoint, EndPointDocument} from "../models/EndPoint";
+import {EndPoint, EndPointDocument} from "../models/endPoint";
 import {ScanLog, ScanLogDocument, ScanLogField} from "../models/ScanLog";
 import {ScanBatch, ScanBatchDocument} from "../models/scanBatch";
 import {JSONValidator} from "../util/JSONValidator";
 import "../util/initMongo";
 import {APNMessage, pushAPNS} from "../util/notification";
-import {User} from "../models/User";
+import {User} from "../models/user";
 import moment from "moment";
 import {create} from "domain";
 import {getDomain} from "../util/url";

@@ -1,6 +1,6 @@
 import request from 'supertest';
 import app from '../src/app';
-import {UserDocument} from '../src/models/User';
+import {UserDocument} from '../src/models/user';
 
 class RequestAgent {
 

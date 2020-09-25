@@ -1,7 +1,7 @@
 import {Request, Response} from 'express';
 import routerWrapper from '../util/routerWrapper';
-import {EndPoint} from '../models/EndPoint';
-import {UserDocument} from "../models/User";
+import {EndPoint} from '../models/endPoint';
+import {UserDocument} from "../models/user";
 import {scanEndPoint} from "../tasks/scanEndPointTask";
 import {ScanLog} from "../models/ScanLog";
 import moment from "moment";

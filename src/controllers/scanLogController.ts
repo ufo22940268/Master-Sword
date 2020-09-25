@@ -1,6 +1,6 @@
 import {Request, Response} from 'express';
 import routerWrapper from '../util/routerWrapper';
-import {EndPoint} from "../models/EndPoint";
+import {EndPoint} from "../models/endPoint";
 import {ScanLog} from "../models/ScanLog";
 
 

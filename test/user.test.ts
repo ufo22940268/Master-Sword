@@ -1,8 +1,8 @@
 import request from 'supertest';
 import app from '../src/app';
 import mongoose from 'mongoose';
-import {EndPoint} from '../src/models/EndPoint';
-import {User, UserDocument} from '../src/models/User';
+import {EndPoint} from '../src/models/endPoint';
+import {User, UserDocument} from '../src/models/user';
 import RequestAgent from './RequestAgent';
 import '../src/util/initMongo'
 import {deleteCollectionsBeforeTest} from "./dbHelper";

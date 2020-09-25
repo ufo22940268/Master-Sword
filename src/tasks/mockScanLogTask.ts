@@ -1,4 +1,4 @@
-import {EndPoint} from "../models/EndPoint";
+import {EndPoint} from "../models/endPoint";
 import {ScanLog} from "../models/ScanLog";
 import "../util/initMongo";
 import moment from 'moment'
