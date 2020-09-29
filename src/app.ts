@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.post('/user/login', UserController.postLogin);
 
 app.use(async (req, res, next) => {
-    const user = await User.findOne({appleId: req.headers['apple-user-id']});
+    const user = await User.findOne({appleId: req.query['token']});
     if (!user) {
         return res.send({
             ok: false,

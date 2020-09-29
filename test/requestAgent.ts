@@ -11,11 +11,11 @@ class RequestAgent {
     }
 
     post(url: string) {
-        return request(app).post(url).set('apple-user-id', this.user.appleId);
+        return request(app).post(url).query({'token': this.user.appleId});
     }
 
     get(url: string) {
-        return request(app).get(url).set('apple-user-id', this.user.appleId);
+        return request(app).get(url).query({'token': this.user.appleId});
     }
 }
 
