@@ -1,5 +1,4 @@
-import fetch from "node-fetch"
-import {Headers, Request} from 'node-fetch'
+import fetch, {Headers, Request} from "node-fetch"
 import {EndPoint, EndPointDocument} from "../models/endPoint";
 import {ScanLog, ScanLogDocument, ScanLogField} from "../models/scanLog";
 import {ScanBatch, ScanBatchDocument} from "../models/scanBatch";
@@ -8,7 +7,6 @@ import "../util/initMongo";
 import {APNMessage, pushAPNS} from "../util/notification";
 import {User} from "../models/user";
 import moment from "moment";
-import {create} from "domain";
 import {getDomain} from "../util/url";
 
 const headersToString = (headers: Headers) => {
@@ -95,7 +93,7 @@ export const scanEndPoints = async () => {
                 await sendNotification(log);
             }
         } catch (e) {
-            console.error(e)
+            // console.error(e)
         }
     }
 };

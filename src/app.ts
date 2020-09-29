@@ -1,43 +1,19 @@
 import express from 'express';
-import compression from 'compression'; // compresses requests
-import session from 'express-session';
 import bodyParser from 'body-parser';
-import mongo from 'connect-mongo';
-import flash from 'express-flash';
-import mongoose from 'mongoose';
-import passport from 'passport';
-import bluebird from 'bluebird';
-import {MONGODB_URI, SESSION_SECRET} from './util/secrets';
 import {User} from './models/user';
 import * as EndPointController from './controllers/endPointController';
 import * as UserController from './controllers/userController';
 import * as ScanLogController from './controllers/scanLogController';
-import routerWrapper from './util/routerWrapper';
-
-const MongoStore = mongo(session);
+import './util/initMongo'
 
 // Create Express server
 const app = express();
 
-import './util/initMongo'
-import {mongoUrl} from "./util/initMongo";
-
+app.set('etag', false)
 // Express configuration
 app.set('port', process.env.PORT || 3000);
-app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(session({
-    resave: true,
-    saveUninitialized: true,
-    secret: SESSION_SECRET,
-    store: new MongoStore({
-        url: mongoUrl,
-        autoReconnect: true
-    })
-}));
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.post('/user/login', UserController.postLogin);
 
