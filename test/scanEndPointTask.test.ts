@@ -47,6 +47,7 @@ describe('Scan EndPoint', () => {
         expect(log.duration).toBeGreaterThan(0);
         expect(log.fields[0].match).toBeTruthy();
         expect(log.data).toBeTruthy();
+        expect(log.user).not.toBeFalsy();
     });
 
     describe('when server return unexpected values', () => {

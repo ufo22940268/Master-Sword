@@ -24,7 +24,8 @@ export const scanEndPoint = async (endPoint: EndPointDocument, batch?: ScanBatch
     log.responseHeader = headersToString(response.headers);
     log.requestHeader = '';
     log.batch = batch;
-    log.endPoint = endPoint
+    log.endPoint = endPoint;
+    log.user = endPoint.user;
 
     let fields: ScanLogField[] = [];
     let text = await response.text();
@@ -70,7 +71,6 @@ async function sendNotification(log: ScanLogDocument) {
     let message: APNMessage = {
         content: `域名 ${getDomain(log.endPoint.url)} 有错误`
     }
-
 
     await User.populate(log, {path: 'endPoint.user'});
     await pushAPNS(log.endPoint.user, message);

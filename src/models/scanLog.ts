@@ -1,6 +1,7 @@
 import mongoose, {Schema, Types} from 'mongoose';
 import {EndPointDocument} from './endPoint';
 import {ScanBatchDocument} from "./scanBatch";
+import {UserDocument} from "./user";
 
 export interface ScanLogDocument extends mongoose.Document {
     endPoint: EndPointDocument,
@@ -16,6 +17,7 @@ export interface ScanLogDocument extends mongoose.Document {
     errorCount: number,
     notified: boolean,
     hasIssue: boolean
+    user: UserDocument
 }
 
 export interface ScanLogField {
@@ -45,6 +47,7 @@ const scanLogSchema = new mongoose.Schema({
     responseHeader: String,
     statusCode: Number,
     errorCount: Number,
+    user: {type: Schema.Types.ObjectId, ref: 'User'},
     data: String,
     notified: Boolean,
     fields: [scanLogFieldSchema]
