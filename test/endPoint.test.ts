@@ -1,6 +1,4 @@
 import request from 'supertest';
-import app from '../src/app';
-import mongoose from 'mongoose';
 import {EndPoint, EndPointDocument} from '../src/models/endPoint';
 import {User, UserDocument} from '../src/models/user';
 import RequestAgent from './requestAgent';
@@ -9,11 +7,19 @@ import fetchMock from 'jest-fetch-mock'
 import '../src/util/initMongo'
 import {deleteCollectionsBeforeTest} from "./dbHelper";
 
+import * as scanEndPointTask from '../src/tasks/scanEndPointTask'
+
+let {scanEndPoint, scanEndPoints} = scanEndPointTask
+
+import app from '../src/app';
+
 describe('EndPoint Api', () => {
 
     let user: UserDocument;
     let agent: RequestAgent;
     let endPoint: EndPointDocument;
+    let scanEndPointsSpy: any;
+    let scanEndPointSpy: any;
 
     beforeEach(async () => {
         await deleteCollectionsBeforeTest()
@@ -29,6 +35,8 @@ describe('EndPoint Api', () => {
 
         agent = new RequestAgent(user);
         fetchMock.mockIf(/.*/, '{"a": 3, "ar": [{"j": 10}], "b": {"c": 10}}')
+        scanEndPointsSpy = jest.spyOn(scanEndPointTask, 'scanEndPoints')
+        scanEndPointSpy = jest.spyOn(scanEndPointTask, 'scanEndPoint')
     });
 
     const post = (url: string) => {
@@ -57,6 +65,8 @@ describe('EndPoint Api', () => {
         ep = await EndPoint.findOne({url: 'u1'});
         expect(ep.watchFields[0])
             .toEqual(expect.objectContaining({path: 'p2', value: 'v1'}));
+
+        expect(scanEndPointSpy).toBeCalled();
     });
 
     it('should sync', async () => {
