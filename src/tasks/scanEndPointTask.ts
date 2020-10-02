@@ -78,6 +78,10 @@ async function sendNotification(log: ScanLogDocument) {
     await log.save();
 }
 
+/**
+ * Has some issue. Not check user and the log's error type.
+ * @param log
+ */
 async function isSentRecently(log: ScanLogDocument) {
     let begin = moment(log.createdAt).subtract(10, 'minutes');
     return !!(await ScanLog.findOne({createdAt: {$gt: begin}, notified: true}));
@@ -89,7 +93,7 @@ export const scanEndPoints = async () => {
     for (let endPoint of await EndPoint.find()) {
         try {
             let log = await scanEndPoint(endPoint, batch)
-            if (log?.hasIssue && !await isSentRecently(log)) {
+            if (log?.hasIssue) {
                 await sendNotification(log);
             }
         } catch (e) {
