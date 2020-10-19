@@ -15,6 +15,26 @@ export const listScanLogsByEndPoint = routerWrapper(async (req: Request, res: Re
     }))
 });
 
+export const listScanLogsInSpanByEndPoint = routerWrapper(async (req: Request, res: Response) => {
+    let {endPointId} = req.params;
+    return {
+        today: (await ScanLog.find({endPoint: endPointId}).sort({createdAt: -1}).limit(7)).map(t => ({
+            duration: t.duration,
+            errorCount: t.errorCount,
+            time: t.createdAt,
+            id: t.id
+        })),
+        //TODO Group by day
+        week: (await ScanLog.find({endPoint: endPointId}).sort({createdAt: -1}).limit(7)).map(t => ({
+            duration: t.duration,
+            errorCount: t.errorCount,
+            time: t.createdAt,
+            id: t.id
+        }))
+    }
+
+});
+
 
 export const listScanLogs = routerWrapper(async (req: Request, res: Response) => {
     let {user} = res.locals;

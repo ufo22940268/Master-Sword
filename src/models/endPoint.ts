@@ -24,5 +24,6 @@ const endPointSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 endPointSchema.index({user: 1, url: 1}, {unique: true})
+endPointSchema.index({createdAt: 1})
 
 export const EndPoint = mongoose.model<EndPointDocument>('EndPoint', endPointSchema);

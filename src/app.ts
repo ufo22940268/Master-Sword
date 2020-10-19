@@ -40,6 +40,7 @@ app.post('/endpoint/scan', EndPointController.postScanEndPoint);
 
 app.get('/scanlog/list', ScanLogController.listScanLogs);
 app.get('/scanlog/list/:endPointId', ScanLogController.listScanLogsByEndPoint);
+app.get('/scanlog/list/span/:endPointId', ScanLogController.listScanLogsInSpanByEndPoint);
 app.get('/scanlog/:id', ScanLogController.getScanLog);
 
 app.use((req, res, next) => {

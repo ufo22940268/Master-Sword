@@ -56,6 +56,15 @@ describe('ScanLog Api', () => {
         expect(r.body.result[0]).toHaveProperty('id', expect.anything());
     })
 
+    it('should list scanLogs in time span by endpoint id', async () => {
+        let r = await agent.get(`/scanlog/list/span/${endPoint.id}`)
+        expect(r.body.result).toHaveProperty('today', expect.arrayContaining([{
+            duration: 3,
+            time: expect.anything(),
+            id: expect.anything(),
+        }]));
+    })
+
     it('should get scan log detail', async () => {
         let {body: {result}} = await agent.get(`/scanlog/${scanLog.id}`)
         expect(result).toHaveProperty('responseHeader', expect.anything());
