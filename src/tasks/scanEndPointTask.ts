@@ -14,6 +14,13 @@ const headersToString = (headers: Object) => {
     return Object.entries(headers).map(t => `${t[0]}:${t[1]}`).join('\n')
 }
 
+function convertToSeconds(phases: { wait?: number; dns?: number; tcp?: number; tls?: number; request?: number; firstByte?: number; download?: number; total?: number }) {
+    return Object.entries(phases).reduce((r, m) => ({
+        ...r,
+        [m[0]]: (m[1] ?? 0) / 1000
+    }), {})
+}
+
 export const scanEndPoint = async (endPoint: EndPointDocument, batch?: ScanBatchDocument): Promise<ScanLogDocument> => {
     let startTime = new Date();
 
@@ -62,9 +69,10 @@ export const scanEndPoint = async (endPoint: EndPointDocument, batch?: ScanBatch
     log.duration = duration;
     log.fields = fields
     log.data = text
-    log.timings = response.timings.phases
+    log.timings = convertToSeconds(response.timings.phases)
     return await log.save();
 }
+
 
 async function sendNotification(log: ScanLogDocument) {
     let notifFields = log.fields.filter(f => !f.match);
