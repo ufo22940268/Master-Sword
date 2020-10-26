@@ -40,10 +40,11 @@
     "winston": "^3.2.1",
     "moment": "^2.27.0",
     "url-parse": "^1.4.7",
-    "apn": "^2.2.0"
+    "apn": "^2.2.0",
+    "got": "^11.8.0"
   },
   "devDependencies": {
-    "@types/url-parse": "^1.4.3",
+    "@shelf/jest-mongodb": "^1.2.3",
     "@types/async": "^3.0.2",
     "@types/bcrypt-nodejs": "^0.0.30",
     "@types/bluebird": "^3.5.27",
@@ -72,8 +73,10 @@
     "@types/pug": "^2.0.4",
     "@types/request": "^2.48.3",
     "@types/request-promise": "^4.1.44",
+    "@types/request-promise-native": "^1.0.17",
     "@types/shelljs": "^0.8.5",
     "@types/supertest": "^2.0.8",
+    "@types/url-parse": "^1.4.3",
     "@types/winston": "^2.4.4",
     "@typescript-eslint/eslint-plugin": "^2.3.1",
     "@typescript-eslint/parser": "^2.3.1",
@@ -89,6 +92,6 @@
     "ts-jest": "^26.4.0",
     "ts-node": "^8.4.1",
     "typescript": "4.0.3",
-    "@shelf/jest-mongodb": "^1.2.3"
+    "nock": "^13.0.4"
   }
 }

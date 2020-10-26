@@ -8,27 +8,31 @@ import {APNMessage, pushAPNS} from "../util/notification";
 import {User} from "../models/user";
 import moment from "moment";
 import {getDomain} from "../util/url";
+import got from "got";
 
-const headersToString = (headers: Headers) => {
-    let obj = headers.raw()
-    return Object.entries(obj).map(t => `${t[0]}:${t[1]}`).join('\n')
+const headersToString = (headers: Object) => {
+    return Object.entries(headers).map(t => `${t[0]}:${t[1]}`).join('\n')
 }
 
 export const scanEndPoint = async (endPoint: EndPointDocument, batch?: ScanBatchDocument): Promise<ScanLogDocument> => {
     let startTime = new Date();
 
     let request = new Request(endPoint.url);
-    let response = await fetch(request, {timeout: 5000});
+    // let response = await fetch(request, {timeout: 5000});
+    let response = await got(endPoint.url, {timeout: 5000})
 
     let log = new ScanLog()
+
+    //TODO
     log.responseHeader = headersToString(response.headers);
+
     log.requestHeader = '';
     log.batch = batch;
     log.endPoint = endPoint;
     log.user = endPoint.user;
 
     let fields: ScanLogField[] = [];
-    let text = await response.text();
+    let text = response.body
     let duration = (Date.now() - startTime.getTime()) / 1000;
     let json = null;
     try {
@@ -58,6 +62,7 @@ export const scanEndPoint = async (endPoint: EndPointDocument, batch?: ScanBatch
     log.duration = duration;
     log.fields = fields
     log.data = text
+    log.timings = response.timings.phases
     return await log.save();
 }
 

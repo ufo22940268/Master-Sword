@@ -84,6 +84,14 @@ describe('EndPoint Api', () => {
         expect(result[0]).toHaveProperty('url');
     })
 
+    it('should list endpoints', async () => {
+        let {body: {result}} = await agent.get('/endpoint/list')
+        expect(result).toHaveLength(1);
+        expect(result[0]).toHaveProperty('url');
+        expect(result[0]).toHaveProperty('hasTimeout', false);
+        expect(result[0]).toHaveProperty('hasIssue', false);
+    })
+
     it('should scan endpoints', async () => {
         await post('/endpoint/scan')
         expect(await ScanLog.countDocuments({endPoint: endPoint})).toBeGreaterThan(0);

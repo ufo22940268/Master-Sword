@@ -32,6 +32,7 @@ app.use(async (req, res, next) => {
 
 app.post('/user/update/notificationtoken', UserController.updateNotificationToken);
 
+app.get('/endpoint/list', EndPointController.listEndPoints);
 app.post('/endpoint/upsert', EndPointController.postUpsertEndPoint);
 app.post('/endpoint/sync', EndPointController.postSyncEndPoints);
 app.get('/endpoint/sync/list', EndPointController.getListEndPointForSync);

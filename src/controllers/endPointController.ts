@@ -2,7 +2,7 @@ import {Request, Response} from 'express';
 import routerWrapper from '../util/routerWrapper';
 import {EndPoint} from '../models/endPoint';
 import {UserDocument} from "../models/user";
-import {scanEndPoint, scanEndPoints} from "../tasks/scanEndPointTask";
+import {scanEndPoint} from "../tasks/scanEndPointTask";
 import {ScanLog} from "../models/scanLog";
 import moment from "moment";
 
@@ -67,6 +67,30 @@ export const postScanEndPoint = routerWrapper(async (req: Request, res: Response
     for (let endPoint of endPoints) {
         await scanEndPoint(endPoint)
     }
+});
+
+async function getWarningInRange(endPointId: string, begin: moment.Moment, end: moment.Moment) {
+    return {
+        hasTimeout: !!(await ScanLog.findOne({
+            endPoint: endPointId,
+            createdAt: {$gte: begin, $lte: end},
+            duration: {$gt: 1}
+        })),
+        hasIssue: !!(await ScanLog.findOne({
+            endPoint: endPointId,
+            createdAt: {$gte: begin, $lte: end},
+            errorCount: {$gt: 0}
+        })),
+    }
+}
+
+export const listEndPoints = routerWrapper(async (req: Request, res: Response) => {
+    let {user} = res.locals;
+    return Promise.all((await EndPoint.find({user})).map(async endPoint => {
+        let obj = endPoint.toObject()
+        obj = {...obj, ...(await getWarningInRange(endPoint._id, moment().startOf('day'), moment().endOf('day')))}
+        return obj
+    }));
 });
 
 export const getListEndPointForSync = routerWrapper(async (req: Request, res: Response) => {

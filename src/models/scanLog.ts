@@ -16,6 +16,15 @@ export interface ScanLogDocument extends mongoose.Document {
     statusCode: number,
     errorCount: number,
     notified: boolean,
+    timings: {
+        wait?: Number,
+        dns?: Number,
+        tcp?: Number,
+        request?: Number,
+        firstByte?: Number,
+        download?: Number,
+        total?: Number
+    }
     hasIssue: boolean
     user: UserDocument
 }
@@ -37,7 +46,7 @@ const scanLogFieldSchema = new mongoose.Schema({
 })
 
 const scanLogSchema = new mongoose.Schema({
-    endPoint: {type: Schema.Types.ObjectId, ref: 'EndPoint'},
+    endPoint: {type: Schema.Types.ObjectId, ref: 'EndPoint', index: true},
 
     //Always use seconds as unit. Keep the unit the same as iOS.
     duration: Number,
@@ -50,8 +59,19 @@ const scanLogSchema = new mongoose.Schema({
     user: {type: Schema.Types.ObjectId, ref: 'User'},
     data: String,
     notified: Boolean,
-    fields: [scanLogFieldSchema]
+    fields: [scanLogFieldSchema],
+    timings: {
+        wait: Number,
+        dns: Number,
+        tcp: Number,
+        request: Number,
+        firstByte: Number,
+        download: Number,
+        total: Number
+    }
 }, {timestamps: true});
+
+scanLogSchema.index({createdAt: 1})
 
 scanLogSchema.virtual("hasIssue").get(function () {
     return this.fields?.some((f: any) => !f.match);

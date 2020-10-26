@@ -1,15 +1,15 @@
 import {EndPoint, EndPointDocument} from '../src/models/endPoint';
 import {User, UserDocument} from '../src/models/user';
 import RequestAgent from './requestAgent';
-import {ScanLog} from '../src/models/scanLog';
-import fetchMock from 'jest-fetch-mock'
+import {ScanLog, ScanLogDocument} from '../src/models/scanLog';
 import '../src/util/initMongo'
 import {deleteCollectionsBeforeTest} from "./dbHelper";
-
-jest.mock('../src/util/notification')
 import {scanEndPoints} from '../src/tasks/scanEndPointTask';
 import {pushAPNS} from "../src/util/notification";
 import {mocked} from "ts-jest/utils";
+
+jest.mock('../src/util/notification')
+import nock = require("nock");
 
 describe('Scan EndPoint', () => {
 
@@ -35,12 +35,16 @@ describe('Scan EndPoint', () => {
 
         agent = new RequestAgent(user);
 
-        fetchMock.mockIf(/success/, '{"a": 3, "ar": [{"j": 10}], "b": {"c": 10}}')
+        nock('https://success.com/')
+            .get('/')
+            .reply(200, '{"a": 3, "ar": [{"j": 10}], "b": {"c": 10}}', {license: 'MIT'})
+            .persist()
+
     });
 
     it('should scan server', async () => {
         await scanEndPoints();
-        let log = await ScanLog.findOne({endPoint: endPoint});
+        let log: ScanLogDocument = await ScanLog.findOne({endPoint: endPoint});
         expect(log).not.toBeFalsy();
         expect(log.endPoint._id.toString()).toEqual(endPoint.id)
         expect(log.batch).not.toBeFalsy();
@@ -48,6 +52,8 @@ describe('Scan EndPoint', () => {
         expect(log.fields[0].match).toBeTruthy();
         expect(log.data).toBeTruthy();
         expect(log.user).not.toBeFalsy();
+        expect(log.timings.total).toBeGreaterThan(0)
+        expect(log.responseHeader).toBeTruthy()
     });
 
     describe('when server return unexpected values', () => {
@@ -70,7 +76,7 @@ describe('Scan EndPoint', () => {
             expect(log).toHaveProperty('responseHeader', expect.anything());
             expect(log).toHaveProperty('data', expect.anything());
             expect(pushAPNS).toBeCalled();
-            expect(pushAPNS).toBeCalledWith(expect.anything(),expect.objectContaining({content: expect.stringContaining('域名 success.com 有错误')}) );
+            expect(pushAPNS).toBeCalledWith(expect.anything(), expect.objectContaining({content: expect.stringContaining('域名 success.com 有错误')}));
             mocked(pushAPNS).mockReset();
 
             // await scanEndPoints();
